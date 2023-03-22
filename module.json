@@ -10,7 +10,7 @@
     ],
     "priority": 0,
     "providers": [
-        "Modules\\Category\\Providers\\CategoryServiceProvider"
+        "Modules\\Category\\app\\Providers\\CategoryServiceProvider"
     ],
     "files": []
 }

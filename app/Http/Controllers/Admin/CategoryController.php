@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Category\app\Http\Controllers;
+namespace Modules\Category\app\Http\Controllers\Admin;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('category::index');
+        return view('category::admin.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category::create');
+        return view('category::admin.create');
     }
 
     /**
@@ -42,10 +42,10 @@ class CategoryController extends Controller
      * @param int Category $category
      * @return Renderable
      */
-    public function show(Category $category)
-    {
-        return view('category::show');
-    }
+    // public function show(Category $category)
+    // {
+    //     return view('category::show');
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -75,6 +75,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        session()->flash('status', 'Record deleted successfully.');
+        return redirect(route('admin.category.index'));
     }
 }

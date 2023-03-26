@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Category\Http\Controllers\Admin\CategoryController;
+use Modules\Category\app\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------

@@ -6,6 +6,8 @@
     </x-slot> --}}
 
     <div class="my-3">
+        <x-alert />
+
         <div class="card">
             @can('room.create')
                 <div class="card-header">
@@ -24,9 +26,8 @@
                                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
                                     style="--bs-scroll-height: 100px;">
                                     <li class="nav-item">
-                                        <a class="nav-link{{ request()->routeIs('admin.property.create') ? ' active' : '' }}"
-                                            @if (request()->routeIs('admin.property.create')) aria-current="page" @endif
-                                            href="{{ route('admin.property.create') }}">Create</a>
+                                        <button class="btn btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#createModal">Create</button>
                                     </li>
                                 </ul>
                             </div>
@@ -38,4 +39,73 @@
             <livewire:category::admin.index />
         </div>
     </div>
+
+    @push('modals')
+        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalForm"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title add-title" id="createModalFormLabel1">
+                            Add Contact
+                        </h5>
+                        {{-- <h5 class="modal-title edit-title" id="createModalFormLabel2" style="display: none;">
+                            Edit Contact</h5> --}}
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+
+                    <form id="createModalForm" method="POST" action="{{ route('admin.category.store') }}">
+                        <div class="modal-body">
+                            <div class="row gy-3">
+                                <div class="col-md-12">
+                                    <div>
+                                        <input type="text" id="name" class="form-control" name="category[name]"
+                                            placeholder="Name" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="">
+                                        <textarea id="description" class="form-control" name="category[description]" placeholder="Description"></textarea>
+                                        <span class="validation-text"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="input-group" x-data="{ icon: 'fa fa-sitemap' }">
+                                        <span class="input-group-text">
+                                            <i x-bind:class="icon"></i>
+                                        </span>
+                                        <input type="text" id="icon" class="form-control" name="category[icon]"
+                                            x-model="icon" placeholder="Icon (fa fa-home)" value="fa fa-sitemap">
+                                    </div>
+                                    <span class="validation-text"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <input type="file" id="image" name="image" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            {{-- <button id="btn-edit" class="float-left btn btn-success">Save</button> --}}
+
+                            <button id="btn-add" class="btn btn-primary">Add</button>
+
+                            <button class="btn bnt-sm" data-bs-dismiss="modal">
+                                <i class="fa fa-undo"></i>
+                                Cancel
+                            </button>
+                        </div>
+
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endpush
 </x-app-layout>

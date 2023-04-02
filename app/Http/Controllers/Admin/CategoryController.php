@@ -5,7 +5,9 @@ namespace Modules\Category\app\Http\Controllers\Admin;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Category\app\Http\Requests\StoreCategoryRequest;
 use Modules\Category\app\Models\Category;
+use Plank\Mediable\Facades\MediaUploader;
 
 class CategoryController extends Controller
 {
@@ -32,9 +34,28 @@ class CategoryController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        //
+        $category = Category::where(['name' => $request->category['name']])->first();
+        if ($category) {
+            session()->flash('status', 'Category already exists.');
+            return redirect(route('admin.category.index'))->withInput();
+        }
+
+        $category = Category::create($request->category);
+
+        // Media
+        if ($request->filled('image')) {
+            $media = MediaUploader::fromSource($request->file('images'))
+                ->useHashForFilename()
+                ->onDuplicateUpdate()
+                ->upload();
+
+            $category->syncMedia($media, 'image');
+        }
+
+        session()->flash('status', "Category ({$category->name}) created successfully.");
+        return redirect(route('admin.category.index'));
     }
 
     /**
@@ -42,10 +63,10 @@ class CategoryController extends Controller
      * @param int Category $category
      * @return Renderable
      */
-    // public function show(Category $category)
-    // {
-    //     return view('category::show');
-    // }
+    public function show(Category $category)
+    {
+        return view('category::show');
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -77,7 +98,7 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        session()->flash('status', 'Record deleted successfully.');
+        session()->flash('status', "Category ({$category->name}) deleted successfully.");
         return redirect(route('admin.category.index'));
     }
 }

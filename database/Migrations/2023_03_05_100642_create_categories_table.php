@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignUuid('parent_id')->nullable();
             $table->string('name');
             $table->string('slug')->nullable();
+            $table->string('icon')->nullable()->default('fa fa-sitemap');
             $table->text('description')->nullable();
             $table->timestamps();
 

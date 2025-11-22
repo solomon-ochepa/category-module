@@ -1,0 +1,16 @@
+{
+    "name": "Category",
+    "alias": "category",
+    "description": "Categories - Laravel module.",
+    "keywords": [
+        "laravel-modules",
+        "category-module",
+        "solomon-ochepa",
+        "oki technologies ltd"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\Category\\App\\Providers\\CategoryServiceProvider"
+    ],
+    "files": []
+}
